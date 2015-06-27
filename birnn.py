@@ -136,18 +136,6 @@ class BiDirectionLSTM(Layer):
         h_t = o_t * self.activation(c_t)
         return h_t, c_t
 
-    def _backward_step(self,
-        xi_t, xf_t, xo_t, xc_t,
-        h_tp1, c_tp1,
-        u_i, u_f, u_o, u_c):
-        i_t = self.inner_activation(xi_t + T.dot(h_tp1, u_i))
-        f_t = self.inner_activation(xf_t + T.dot(h_tp1, u_f))
-        o_t = self.inner_activation(xo_t + T.dot(h_tp1, u_o))
-        g_t = self.activation(xc_t + T.dot(h_tp1, u_c))
-        c_t = f_t * c_tp1 + i_t * g_t
-        h_t = o_t * self.activation(c_t)
-        return h_t, c_t
-
     def get_forward_output(self, train):
         X = self.get_input(train)
         X = X.dimshuffle((1,0,2))
@@ -180,7 +168,7 @@ class BiDirectionLSTM(Layer):
         xo = T.dot(X, self.Wb_o) + self.bb_o
 
         [outputs, memories], updates = theano.scan(
-            self._backward_step,
+            self._forward_step,
             sequences=[xi, xf, xo, xc],
             outputs_info=[
                 T.unbroadcast(alloc_zeros_matrix(X.shape[1], self.output_dim), 1),
@@ -213,4 +201,3 @@ class BiDirectionLSTM(Layer):
             "activation":self.activation.__name__,
             "inner_activation":self.inner_activation.__name__,
             "truncate_gradient":self.truncate_gradient}
-            # "return_sequences":self.return_sequences}
