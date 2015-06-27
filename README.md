@@ -3,7 +3,18 @@ bidirectional lstm
 
 This repo demonstrates how to use keras to build a deep bidirectional LSTM with mlp layers before and after the LSTM layers
 
+This repo can be used for the deep speech paper from Baidu
+
+Deep Speech: Scaling up end-to-end speech recognition
+arXiv:1412.5567, 2014 
+A. Hannun etc
+
 ```python
+max_features=20000
+maxseqlen = 100 # cut texts after this number of words (among top max_features most common words)
+batch_size = 16
+word_vec_len = 256
+
 model = Sequential()
 model.add(Embedding(max_features, word_vec_len))
 # transform from three dimensional to two dimensional in order to feed mlp
@@ -31,10 +42,4 @@ model.add(Dropout(0.2))
 model.add(Dense(100, 1, activation='sigmoid'))
 ```
 
-This repo can be used for the deep speech paper
 
-Deep Speech: Scaling up end-to-end speech recognition
-
-arXiv:1412.5567, 2014 
-
-A. Hannun etc
