@@ -34,5 +34,7 @@ model.add(Dense(100, 1, activation='sigmoid'))
 This repo can be used for the deep speech paper
 
 Deep Speech: Scaling up end-to-end speech recognition
+
 arXiv:1412.5567, 2014 
+
 A. Hannun etc
