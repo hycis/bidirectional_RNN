@@ -1,7 +1,7 @@
 # bidirectional_RNN
 bidirectional lstm
 
-This repo demonstrates how to use keras to build a deep bidirectional LSTM with mlp layers before and after the LSTM layers
+This repo demonstrates how to use keras to build a deep bidirectional RNN/LSTM with mlp layers before and after the LSTM layers
 
 This repo can be used for the deep speech paper from Baidu
 
