@@ -58,36 +58,30 @@ print('test_X shape:', test_X.shape)
 print('Build model...')
 model = Sequential()
 model.add(Embedding(max_features, word_vec_len))
-# transform from three dimensional to two dimensional in order to feed mlp
-model.add(Transform((word_vec_len,), input=T.tensor3()))
 
 # MLP layers
-model.add(Dense(word_vec_len, 200, activation='relu'))
-model.add(BatchNormalization((200,)))
-model.add(Dense(200,200,activation='relu'))
-model.add(BatchNormalization((200,)))
-model.add(Dense(200, word_vec_len, activation='relu'))
-
-# tranform from 2d data to 3d data again to feed RNN
-model.add(Transform((maxseqlen, word_vec_len)))
+model.add(Dense(word_vec_len, 100, activation='relu'))
+model.add(BatchNormalization((100,)))
+model.add(Dense(100,100,activation='relu'))
+model.add(BatchNormalization((100,)))
+model.add(Dense(100, word_vec_len, activation='relu'))
 
 # Stacked up BiDirectionLSTM layers
-model.add(BiDirectionLSTM(word_vec_len, 100, output_mode='concat'))
-model.add(BiDirectionLSTM(200, 24, output_mode='sum'))
+model.add(BiDirectionLSTM(word_vec_len, 50, output_mode='concat'))
+model.add(BiDirectionLSTM(100, 24, output_mode='sum'))
 
 # MLP layers
 model.add(Reshape(24 * maxseqlen))
 model.add(BatchNormalization((24 * maxseqlen,)))
-model.add(Dense(24 * maxseqlen, 100, activation='relu'))
+model.add(Dense(24 * maxseqlen, 50, activation='relu'))
 model.add(Dropout(0.2))
-model.add(Dense(100, 1, activation='sigmoid'))
+model.add(Dense(50, 1, activation='sigmoid'))
 
 
 # try using different optimizers and different optimizer configs
-model.compile(loss='root_mean_squared_error', optimizer='adam', class_mode="binary")
+model.compile(loss='mean_squared_error', optimizer='adam', class_mode="binary")
 
 print("Train...")
-
 model.fit(train_X, train_y, batch_size=batch_size, nb_epoch=5, validation_data=(test_X, test_y), show_accuracy=True)
 
 score = model.evaluate(test_X, test_y, batch_size=batch_size)

@@ -18,6 +18,7 @@ class Transform(Layer):
         and if we want to revert back to (nb_samples, sequence_length, vector_length) so that we can feed
         the LSTM, then we can set dims as (sequence_length, vector_length).
         This function is needed for adding mlp layers before LSTM or after the LSTM.
+
         When used as first layer, input has to be set either as tensor3 or matrix
         '''
 
@@ -28,9 +29,9 @@ class Transform(Layer):
 
     def get_output(self, train):
         X = self.get_input(train)
-        di = [X.shape[i] for i in range(X.ndim - len(self.dims))]
-        di += self.dims
-        return theano.tensor.reshape(X, di)
+        dim = [X.shape[i] for i in range(X.ndim - len(self.dims))]
+        dim += self.dims
+        return theano.tensor.reshape(X, dim)
 
     def get_config(self):
         return {"name":self.__class__.__name__,
