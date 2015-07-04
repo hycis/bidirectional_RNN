@@ -77,7 +77,6 @@ model.add(Dense(24 * maxseqlen, 50, activation='relu'))
 model.add(Dropout(0.2))
 model.add(Dense(50, 1, activation='sigmoid'))
 
-
 # try using different optimizers and different optimizer configs
 model.compile(loss='mean_squared_error', optimizer='adam', class_mode="binary")
 
