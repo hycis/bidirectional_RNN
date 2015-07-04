@@ -14,7 +14,7 @@ from keras.layers.recurrent import *
 from keras.datasets import imdb
 import cPickle
 import sys
-from birnn import Transform, BiDirectionLSTM
+from birnn import BiDirectionLSTM
 '''
     Train a BiDirectionLSTM LSTM on the IMDB sentiment classification task.
 
