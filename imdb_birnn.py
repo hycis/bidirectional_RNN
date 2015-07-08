@@ -14,7 +14,7 @@ from keras.layers.recurrent import *
 from keras.datasets import imdb
 import cPickle
 import sys
-from birnn import BiDirectionLSTM
+from birnn import BiDirectionLSTM, Transform
 '''
     Train a BiDirectionLSTM LSTM on the IMDB sentiment classification task.
 
@@ -60,11 +60,13 @@ model = Sequential()
 model.add(Embedding(max_features, word_vec_len))
 
 # MLP layers
+model.add(Transform((word_vec_len,))) # transform from 3d dimensional input to 2d input for mlp
 model.add(Dense(word_vec_len, 100, activation='relu'))
 model.add(BatchNormalization((100,)))
 model.add(Dense(100,100,activation='relu'))
 model.add(BatchNormalization((100,)))
 model.add(Dense(100, word_vec_len, activation='relu'))
+model.add(Transform((maxseqlen, word_vec_len))) # transform back from 2d to 3d for recurrent input
 
 # Stacked up BiDirectionLSTM layers
 model.add(BiDirectionLSTM(word_vec_len, 50, output_mode='concat'))
