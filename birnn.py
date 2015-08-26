@@ -4,6 +4,7 @@ import theano.tensor as T
 from keras import activations, initializations
 from keras.utils.theano_utils import shared_zeros, alloc_zeros_matrix
 from keras.layers.core import Layer
+import numpy as np
 
 
 class Transform(Layer):
@@ -29,14 +30,8 @@ class Transform(Layer):
 
      def get_output(self, train):
          X = self.get_input(train)
-         dim_mul = 1
-         for i in range(X.ndim):
-            dim_mul *= X.shape[i]
-         input_dim = 1
-         for i in range(len(self.dims)):
-            input_dim *= self.dims[i]
-         di = (dim_mul/input_dim,) + self.dims
-         return theano.tensor.reshape(X, di)
+         first_dim = T.prod(X.shape) / np.prod(self.dims)
+         return T.reshape(X, (first_dim,)+self.dims)
 
      def get_config(self):
          return {"name":self.__class__.__name__,
