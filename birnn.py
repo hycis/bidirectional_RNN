@@ -74,6 +74,7 @@ class BiDirectionLSTM(Layer):
         self.output_dim = output_dim
         self.truncate_gradient = truncate_gradient
         self.output_mode = output_mode # output_mode is either sum or concatenate
+        self.return_sequences = return_sequences
 
         self.init = initializations.get(init)
         self.inner_init = initializations.get(inner_init)
