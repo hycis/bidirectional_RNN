@@ -67,7 +67,7 @@ class BiDirectionLSTM(Layer):
     def __init__(self, input_dim, output_dim=128,
         init='glorot_uniform', inner_init='orthogonal',
         activation='tanh', inner_activation='hard_sigmoid',
-        weights=None, truncate_gradient=-1, output_mode='sum'):
+        weights=None, truncate_gradient=-1, output_mode='sum', return_sequences=False):
 
         super(BiDirectionLSTM,self).__init__()
         self.input_dim = input_dim
@@ -191,11 +191,17 @@ class BiDirectionLSTM(Layer):
         forward = self.get_forward_output(train)
         backward = self.get_backward_output(train)
         if self.output_mode is 'sum':
-            return forward + backward
+            output = forward + backward
         elif self.output_mode is 'concat':
-            return T.concatenate([forward, backward], axis=2)
+            output = T.concatenate([forward, backward], axis=2)
         else:
             raise Exception('output mode is not sum or concat')
+        if self.return_sequences==False:
+            return output[:,-1,:]
+        elif self.return_sequences==True:
+            return output
+        else:
+            raise Exception('Unexpected output shape for return_sequences')
 
 
     def get_config(self):
