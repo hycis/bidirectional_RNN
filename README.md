@@ -28,8 +28,8 @@ model.add(Dense(100, word_vec_len, activation='relu'))
 model.add(Transform((maxseqlen, word_vec_len))) # transform back from 2d to 3d for recurrent input
 
 # Stacked up BiDirectionLSTM layers
-model.add(BiDirectionLSTM(word_vec_len, 50, output_mode='concat'), return_sequences=True)
-model.add(BiDirectionLSTM(100, 24, output_mode='sum'), return_sequences=True)
+model.add(BiDirectionLSTM(word_vec_len, 50, output_mode='concat', return_sequences=True))
+model.add(BiDirectionLSTM(100, 24, output_mode='sum', return_sequences=True))
 
 # MLP layers
 model.add(Reshape(24 * maxseqlen))
