@@ -1,6 +1,9 @@
 # bidirectional_RNN
 bidirectional lstm
 
+##### This biRNN only works with older keras version https://github.com/fchollet/keras/releases/tag/0.1.3
+##### The latest release has some major updates that disable flexibilities in building layer
+
 This repo demonstrates how to use [keras](https://github.com/fchollet/keras) to build a deep bidirectional RNN/LSTM with mlp layers before and after the LSTM layers
 
 This repo can be used for the deep speech paper from Baidu
