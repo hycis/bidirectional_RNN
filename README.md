@@ -13,6 +13,7 @@ A. Hannun etc
 <!-- ![BiLSTM](images/illustration.png "Title" {width=40px height=400px}) -->
 <img src="item_lstm.png" height="250">
 
+The figure above shows the structure of the Bidirectional LSTM, whereby you have one forward LSTM and one backward LSTM running in reverse time and with their features concatenated at the output layer, thus enabling informations from both past and future to come together.
 
 ```python
 def train():
